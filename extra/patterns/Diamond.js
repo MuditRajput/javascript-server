@@ -1,19 +1,35 @@
-function diamond(Num){
-    let s="";
-    let j=Num;
-    for(let i=1; i<=Num; i++){
-    s="  ".repeat(j);
-    console.log(s," *  ".repeat(i));
-    s="";
-    j--;
-    }
-    j=1;
-    for(i=Num; i>=1; i--){
-    s="  ".repeat(j);
-    console.log(s," *  ".repeat(i));
-    s="";
-    j++;
-    }
-}
 
+
+
+function diamond(rows){
+    
+    let s="";
+    let diamond="";
+    for(let i=1; i<=rows*2; i++){
+        if(i<=rows){
+            s="  "
+            for(let j=rows;j>=i;j--){
+                s=s+"  ";
+            }   
+            for(let k=1;k<=i; k++){
+                s=s+" *  "
+            }
+            diamond=diamond+"\n"+s;
+        } 
+        else{
+            s="";
+            for(let j=rows;j<=i;j++){
+                s=s+"  ";
+            }
+        
+            for(let k=rows*2;k>=i; k--){
+                s=s+" *  "
+            }
+            diamond=diamond+"\n"+s;
+        }
+        s="";
+    }
+console.log(diamond);
+}
 diamond(process.argv[2]);
+
