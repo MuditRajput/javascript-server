@@ -1,8 +1,4 @@
-
-
-
 function diamond(rows){
-    
     let s="";
     let diamond="";
     for(let i=1; i<=rows*2; i++){
@@ -14,7 +10,7 @@ function diamond(rows){
             for(let k=1;k<=i; k++){
                 s=s+" *  "
             }
-            diamond=diamond+"\n"+s;
+            diamond+="\n"+s;
         } 
         else{
             s="";
@@ -25,11 +21,10 @@ function diamond(rows){
             for(let k=rows*2;k>=i; k--){
                 s=s+" *  "
             }
-            diamond=diamond+"\n"+s;
+            diamond+="\n"+s;
         }
         s="";
     }
 console.log(diamond);
 }
 diamond(process.argv[2]);
-

@@ -8,7 +8,7 @@ function equilateral(rows){
         for(let k=1;k<=i; k++){
             s=s+" *  "
         }
-        pyramid=pyramid+"\n"+s;
+        pyramid+="\n"+s;
         s="";
     }
 console.log(pyramid);
