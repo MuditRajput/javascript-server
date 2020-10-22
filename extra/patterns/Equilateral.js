@@ -1,4 +1,4 @@
-function equilateral(rows){
+export default function equilateral(rows){
     let s="";
     let pyramid="";
     for(let i=1; i<=rows; i++){
@@ -11,6 +11,5 @@ function equilateral(rows){
         pyramid+="\n"+s;
         s="";
     }
-console.log(pyramid);
+console.log(`The pyramid of ${rows} rows: \n ${pyramid} \n`);
 }
-equilateral(process.argv[2]);
