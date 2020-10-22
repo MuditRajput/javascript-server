@@ -13,24 +13,24 @@ const permissions = {
     },
 }
 const hasPermissions = (moduleName, role, permissionType) =>{
-    try{
-    if (permissions[moduleName].all.includes(role)){
-        console.log(`${role} has ${permissionType} permissions`);
-        return true;
-    }
-    else 
-    if (permissions[moduleName][permissionType].includes(role)){
-        console.log(`${role} has ${permissionType} permissions`);
-        return true;
+    if((Object.keys(permissions)).includes(moduleName)){
+        if (permissions[moduleName].all.includes(role)){
+            console.log(`${role} has ${permissionType} permissions`);
+            return true;
+        }
+        else 
+        if (permissions[moduleName][permissionType].includes(role)){
+            console.log(`${role} has ${permissionType} permissions`);
+            return true;
+        }
+        else{
+            console.log(`${role} does not have ${permissionType} permissions`);
+            return false;
+        }
     }
     else{
-        console.log(`${role} does not have ${permissionType} permissions`);
-        return false;
+        console.log(`${moduleName} is not a valid module`)
     }
 }
-catch{
-        console.log(`${moduleName} is not a valid module`)
-        return false;
-}
-}
-console.log(hasPermissions("getProduct", "trainer", "delete"));
+
+hasPermissions("getProduct", "trainer", "delete");
