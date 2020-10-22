@@ -25,3 +25,4 @@ export default function hasPermissions (moduleName, role, permissionType){
         console.log(`${moduleName} is not a valid module\n`)
     }
 }
+

@@ -23,3 +23,4 @@ let invalidNumber=invalidUsers.length;
 console.log(`${validNumber} Users are Valid: \n`, validUsers)
 console.log(`${invalidNumber} Users are Invalid: \n`, invalidUsers)
 }
+
