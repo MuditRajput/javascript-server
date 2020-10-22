@@ -12,14 +12,14 @@ const users =[
         reviewerEmail: 'shalu.sharma@successive.techa',
     }
 ]
-function validateEmail(email){
+const validateEmail = (email) => {
     regex=/@successive.tech$/i;
     return regex.test(email);
 }
-function validateUsers(arr) {
+const validateUsers = (users) => {
     const invalidUsers = [];
     const validUsers = [];
-    arr.forEach(function (user) {
+    users.forEach(function (user) {
         const{traineeEmail, reviewerEmail} = user;
         if(validateEmail(traineeEmail)){
             validUsers.push(traineeEmail);
@@ -35,9 +35,9 @@ function validateUsers(arr) {
         }
     }
 )
-let len1=validUsers.length;
-let len2=invalidUsers.length;
-console.log(len1 +" Users are Valid: ", validUsers)
-console.log(len2 +" Users are Invalid: ", invalidUsers)
+let validNumber=validUsers.length;
+let invalidNumber=invalidUsers.length;
+console.log(`${validNumber} Users are Valid:`, validUsers)
+console.log(`${invalidNumber} Users are Invalid:`, invalidUsers)
 }
 validateUsers(users);

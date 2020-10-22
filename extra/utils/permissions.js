@@ -5,7 +5,6 @@ const permissions = {
     write : ['trainer'],
     delete: [],
     },
-
     'getProduct': {
     all: ['head-trainer'],
     read : ['trainee', 'trainer'],
@@ -13,17 +12,25 @@ const permissions = {
     delete: ['manager'],
     },
 }
-function hasPermissions(moduleName, role, permissionType){
+const hasPermissions = (moduleName, role, permissionType) =>{
+    try{
     if (permissions[moduleName].all.includes(role)){
-        console.log("true");
+        console.log(`${role} has ${permissionType} permissions`);
+        return true;
     }
-    else {
-        if (permissions[moduleName][permissionType].includes(role)){
-            console.log("true");
-        }
-        else{
-            console.log("false");
-        }
+    else 
+    if (permissions[moduleName][permissionType].includes(role)){
+        console.log(`${role} has ${permissionType} permissions`);
+        return true;
+    }
+    else{
+        console.log(`${role} does not have ${permissionType} permissions`);
+        return false;
     }
 }
-hasPermissions("getProduct", "head-trainer", "delete");
+catch{
+        console.log(`${moduleName} is not a valid module`)
+        return false;
+}
+}
+console.log(hasPermissions("getProduct", "trainer", "delete"));
