@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aviral-swa/javascript-server.git"
+    "url": "git+https://github.com/MuditRajput/javascript-server.git"
   },
   "author": "Mudit Rajput ",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Aviral-swa/javascript-server/issues"
+    "url": "https://github.com/MuditRajput/javascript-server/issues"
   },
-  "homepage": "https://github.com/Aviral-swa/javascript-server#readme",
+  "homepage": "https://github.com/MuditRajput/javascript-server#readme",
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/node": "^7.12.1",
