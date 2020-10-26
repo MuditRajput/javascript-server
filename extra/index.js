@@ -5,6 +5,7 @@ import{users} from './constants'
 
 diamond(5);
 equilateral(10);
-hasPermissions('getUsers','head-trainer','all');
+const result= hasPermissions('getUsers','head-trainer','all');
+console.log(result);
 validateUsers(users);
 
