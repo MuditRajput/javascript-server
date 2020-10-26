@@ -1,3 +1,4 @@
+
 import {permissions} from '../constants';
 export default function hasPermissions (moduleName, role, permissionType){
     if((Object.keys(permissions)).includes(moduleName)){
