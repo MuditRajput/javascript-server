@@ -1,7 +1,2 @@
-import diamond from './Diamond';
-import equilateral from './Equilateral';
-
-export {
-    diamond,
-    equilateral,
-};
+export { default as diamond } from './Diamond';
+export { default as equilateral } from './Equilateral';
