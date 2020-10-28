@@ -22,5 +22,4 @@
     "exclude": ["dist"],
     "include": ["src"],
     "types": ["src/types"]
-    }
-    
+}

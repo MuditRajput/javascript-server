@@ -1,7 +1,7 @@
 import * as express from 'express';
 
 class Server {
-    app;
+    private app;
     constructor(private config) {
         this.app = express();
     }
