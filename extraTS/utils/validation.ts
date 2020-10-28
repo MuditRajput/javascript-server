@@ -1,5 +1,5 @@
 import validateEmail from './helper';
-export default function validateUsers(users): void {
+export default function validateUsers(users: IUsers[]): void {
     const invalidUsers = [];
     const validUsers = [];
     users.forEach((user) => {
