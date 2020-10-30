@@ -14,37 +14,39 @@ class TraineeController {
 
     get(req: Request, res: Response, next: NextFunction ) {
         try {
-            res.send({
+            res.status(200).send({
                 message: 'trainee fetched successfully',
                 data: [
                     {
                         name: 'Trainee1',
                         address: 'Noida',
                     }
-                ]
+                ],
+                status: 'success',
             });
         } catch (err) {
             console.log('error is ', err);
         }
     }
-    post(req: Request, res: Response, next: NextFunction ) {
+    create(req: Request, res: Response, next: NextFunction ) {
         try {
-            res.send({
+            res.status(200).send({
                 message: 'trainee created successfully',
                 data: [
                     {
                         name: 'Trainee2',
                         address: 'Delhi',
                     }
-                ]
+                ],
+                status: 'success',
             });
         } catch (err) {
             console.log('error is ', err);
         }
     }
-    put(req: Request, res: Response, next: NextFunction ) {
+    update(req: Request, res: Response, next: NextFunction ) {
         try {
-            res.send({
+            res.status(200).send({
                 message: 'trainee updated successfully',
                 data: [
                     {
@@ -59,14 +61,15 @@ class TraineeController {
     }
     delete(req: Request, res: Response, next: NextFunction ) {
         try {
-            res.send({
+            res.status(200).send({
                 message: 'trainee deleted successfully',
                 data: [
                     {
                         name: 'Trainee4',
                         address: 'Faridabad',
                     }
-                ]
+                ],
+                status: 'success',
             });
         } catch (err) {
             console.log('error is ', err);
