@@ -5,12 +5,13 @@ export default (Configuration) => (req: Request, res: Response, next: NextFuncti
         const i = 0;
         const inObject = Configuration[element];
         const inside = inObject.in[i];
+        let value = req[inside][element];
         const a = {
             key : '',
             location: '',
             errorMessage: ''
         };
-        if ((inObject.required) && !((req[inside][element]))) {
+        if ((inObject.required) && !(value)) {
             a.key = element;
             a.location = (req.method);
             a.errorMessage = inObject.errorMessage || `${element} is invalid`;
@@ -18,32 +19,42 @@ export default (Configuration) => (req: Request, res: Response, next: NextFuncti
             return;
         }
         else {
-            req[inside][element] = req[inside][element] || inObject.default;
+            value = value || inObject.default;
         }
-        if ((inObject.number) && !(Number(req[inside][element]))) {
+        if ((inObject.number) && !(Number(value))) {
             a.key = element;
             a.location = req.method;
             a.errorMessage = inObject.errorMessage || `${element}'s type is not number`;
             error.push(a);
             return;
         }
-        if ((inObject.string) && !(typeof req[inside][element] === 'string')) {
+        if ((inObject.string) && !(typeof value === 'string')) {
             a.key = element;
             a.location = req.method;
             a.errorMessage = inObject.errorMessage || `${element}'s type is not string`;
             error.push(a);
             return;
         }
-        if (!inObject.isObject && !(typeof req[inside][element] === 'object')) {
+        const regex = inObject.regex;
+        if ((regex) && !regex.test(value)) {
             a.key = element;
             a.location = req.method;
             a.errorMessage = inObject.errorMessage || `${element}'s type is not string`;
             error.push(a);
             return;
         }
-        console.log(req[inside][element]);
+        if ((inObject.isObject && !(typeof value === 'object'))) {
+            a.key = element;
+            a.location = req.method;
+            a.errorMessage = `${element}'s type is not object`;
+            error.push(a);
+            return;
+        }
+        console.log(`inside ${req.method} values are ${value}`);
     });
-    res.send(error);
+    if (error.length > 0) {
+        return res.status(400).send(error);
+    }
     next ();
 };
 
