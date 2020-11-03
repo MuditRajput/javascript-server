@@ -1,4 +1,5 @@
 import validateEmail from './helper';
+import { IUsers } from '../interfaces';
 export default function validateUsers(users: IUsers[]): void {
     const invalidUsers = [];
     const validUsers = [];

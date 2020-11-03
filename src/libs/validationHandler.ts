@@ -14,7 +14,7 @@ export default (Configuration) => (req: Request, res: Response, next: NextFuncti
         if ((inObject.required) && !(value)) {
             a.key = element;
             a.location = (req.method);
-            a.errorMessage = inObject.errorMessage || `${element} is invalid`;
+            a.errorMessage = inObject.errorMessage || `${element} is required`;
             error.push(a);
             return;
         }
@@ -43,7 +43,7 @@ export default (Configuration) => (req: Request, res: Response, next: NextFuncti
             error.push(a);
             return;
         }
-        if ((inObject.isObject && !(typeof value === 'object')) || Object.entries(value).length === 0) {
+        if ((inObject.isObject && !(typeof value === 'object')) || (inObject.isObject && Object.entries(value).length === 0)) {
             a.key = element;
             a.location = req.method;
             a.errorMessage = `${element} is invalid`;

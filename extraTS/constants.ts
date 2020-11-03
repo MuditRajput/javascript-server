@@ -1,3 +1,4 @@
+import { IPermissions, IUsers } from './interfaces';
 export const permissions: IPermissions = {
     getUsers: {
         all: ['head-trainer'],
