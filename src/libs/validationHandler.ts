@@ -21,7 +21,7 @@ export default (Configuration) => (req: Request, res: Response, next: NextFuncti
         else {
             value = value || inObject.default;
         }
-        if ((inObject.number) && !(Number(value))) {
+        if ((inObject.number) && !(Number.isInteger(Number(value)))) {
             a.key = element;
             a.location = req.method;
             a.errorMessage = inObject.errorMessage || `${element}'s type is not number`;
@@ -39,14 +39,14 @@ export default (Configuration) => (req: Request, res: Response, next: NextFuncti
         if ((regex) && !regex.test(value)) {
             a.key = element;
             a.location = req.method;
-            a.errorMessage = inObject.errorMessage || `${element}'s type is not string`;
+            a.errorMessage = inObject.errorMessage || `${element} is invalid`;
             error.push(a);
             return;
         }
-        if ((inObject.isObject && !(typeof value === 'object'))) {
+        if ((inObject.isObject && !(typeof value === 'object')) || Object.entries(value).length === 0) {
             a.key = element;
             a.location = req.method;
-            a.errorMessage = `${element}'s type is not object`;
+            a.errorMessage = `${element} is invalid`;
             error.push(a);
             return;
         }

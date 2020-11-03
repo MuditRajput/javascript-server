@@ -16,7 +16,7 @@ const Configuration = {
             required: true,
             regex: /[a-z]+[ ][a-z]+$/i,
             in: ['body'],
-            errorMessage: 'Name is required'
+            errorMessage: 'Name is invalid'
         }
     },
     delete: {
