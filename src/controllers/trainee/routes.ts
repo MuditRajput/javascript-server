@@ -1,17 +1,17 @@
 import { Router } from 'express';
 import TraineeController from './Controller';
-import Configuration from './validation';
 import validationHandler from '../../libs/validationHandler';
+import Validation from './validation';
 
 const traineeRouter = Router();
 
 traineeRouter.route('/')
-.get(validationHandler(Configuration.get), TraineeController.get)
-.post(validationHandler(Configuration.create), TraineeController.create)
-.put(validationHandler(Configuration.update), TraineeController.update)
-.delete(validationHandler(Configuration.delete), TraineeController.delete);
+.get(validationHandler(Validation.get), TraineeController.get)
+.post(validationHandler(Validation.create), TraineeController.create)
+.put(validationHandler(Validation.update), TraineeController.update)
+.delete(validationHandler(Validation.delete), TraineeController.delete);
 
 traineeRouter.route('/:id')
-    .delete(validationHandler(Configuration.delete), TraineeController.delete);
+    .delete(validationHandler(Validation.delete), TraineeController.delete);
 
 export default traineeRouter;
