@@ -1,4 +1,4 @@
-const Configuration = {
+const Validation = {
     create: {
         id: {
             required: true,
@@ -58,4 +58,4 @@ const Configuration = {
         }
     }
 };
-export default Configuration;
+export default Validation;
