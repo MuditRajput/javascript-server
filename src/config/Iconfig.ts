@@ -1,6 +1,6 @@
 interface IConfig {
     port: string;
-    node_env: string;
-    secret_key: string;
-    mongo_url: string;
+    nodeEnv: string;
+    secretKey: string;
+    mongoUrl: string;
 }
