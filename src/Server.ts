@@ -42,7 +42,6 @@ class Server {
                     }
                     console.log(`app is running on port ${port}`);
                 });
-                console.log('App is successfully connected to MongoDB');
             })
             .catch((err) => {
                 console.log(err);

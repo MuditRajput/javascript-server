@@ -13,7 +13,7 @@ export default class Database {
                     return;
                 }
                 resolve();
-                console.log('Inside open');
+                console.log('App is successfully connected to MongoDB');
             });
         });
     }
