@@ -5,19 +5,35 @@ import { config } from '../../config';
 
 
 export default (module, permission) => (req: Request, res: Response, next: NextFunction) => {
-    let decodeUser: any;
-    const authorization = 'authorization';
-    const secretKey = config.secretKey;
-    const token = req.headers[authorization];
-    if (!token) {
-        next ({
-            message: 'Token not found',
-            error: 'Unauthenticated',
-            status: 403
-        });
-    }
     try {
+        let decodeUser: any;
+        const authorization = 'authorization';
+        const secretKey = config.secretKey;
+        const token = req.headers[authorization];
+        if (!token) {
+            next ({
+                message: 'Token not found',
+                error: 'Unauthenticated',
+                status: 403
+            });
+        }
         decodeUser = jwt.verify(token, secretKey);
+        if (!decodeUser.role) {
+            next({
+                message: 'role not found',
+                error: 'Unauthenticated',
+                status: 403
+            });
+            return;
+        }
+        if (!hasPermissions(module, decodeUser.role, permission)) {
+            return next({
+                message: `${decodeUser.role} does not have ${permission} permission in ${module}`,
+                error: 'unauthorized',
+                status: 403
+            });
+        }
+        next();
     }
     catch (err) {
         next({
@@ -27,20 +43,4 @@ export default (module, permission) => (req: Request, res: Response, next: NextF
         });
         return;
     }
-    if (!decodeUser.role) {
-        next({
-            message: 'role not found',
-            error: 'Unauthenticated',
-            status: 403
-        });
-        return;
-    }
-    if (!hasPermissions(module, decodeUser.role, permission)) {
-        return next({
-            message: `${decodeUser.role} does not have ${permission} permission in ${module}`,
-            error: 'unauthorized',
-            status: 403
-        });
-    }
-    next();
 };

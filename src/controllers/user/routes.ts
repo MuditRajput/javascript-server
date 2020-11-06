@@ -1,0 +1,17 @@
+import { Router } from 'express';
+import UserController from './Controller';
+import validationHandler from '../../libs/validationHandler';
+import Validation from './validation';
+import { authMiddleWare } from '../../libs/routes';
+
+const userRouter = Router();
+userRouter.route('/')
+    .get(authMiddleWare('getUsers', 'read'), validationHandler(Validation.get), UserController.get)
+    .post(authMiddleWare('getUsers', 'write'), validationHandler(Validation.create), UserController.create)
+    .put(authMiddleWare('getUsers', 'all'), validationHandler(Validation.update), UserController.update)
+    .delete(authMiddleWare('getUsers', 'delete'), validationHandler(Validation.delete), UserController.delete);
+
+userRouter.route('/:id')
+    .delete(authMiddleWare('getUsers', 'delete'), validationHandler(Validation.delete), UserController.delete);
+
+export default userRouter;
