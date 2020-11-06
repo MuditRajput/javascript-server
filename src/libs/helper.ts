@@ -6,8 +6,7 @@ export default function hasPermission(moduleName: string, role: string, permissi
         console.log(`${moduleName} and/or ${permissionType} is invalid`);
         return false;
     }
-    const isRolePresent = !permissions[moduleName].all.includes(role) && !permissions[moduleName][permissionType].includes(role);
-    if (isRolePresent) {
+    if (!permissions[moduleName].all.includes(role) && !permissions[moduleName][permissionType].includes(role)) {
         console.log(`${role} does not have ${permissionType} permissions`);
         return false;
     }
