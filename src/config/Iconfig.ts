@@ -1,4 +1,5 @@
 interface IConfig {
     port: string;
-    node_env: string;
+    nodeEnv: string;
+    secretKey: string;
 }
