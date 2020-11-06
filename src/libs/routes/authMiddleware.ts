@@ -8,14 +8,14 @@ export default (module, permission) => (req: Request, res: Response, next: NextF
     let decodeUser: any;
     const authorization = 'authorization';
     const secretKey = config.secret_key;
-    if (!req.headers[authorization]) {
+    const token = req.headers[authorization];
+    if (!token) {
         next ({
             message: 'Token not found',
-            error: 'Not found',
-            status: 404
+            error: 'Unauthenticated',
+            status: 403
         });
     }
-    const token = req.headers[authorization];
     try {
         decodeUser = jwt.verify(token, secretKey);
     }
@@ -30,8 +30,8 @@ export default (module, permission) => (req: Request, res: Response, next: NextF
     if (!decodeUser.role) {
         next({
             message: 'role not found',
-            error: 'Not Found',
-            status: 404
+            error: 'Unauthenticated',
+            status: 403
         });
         return;
     }
