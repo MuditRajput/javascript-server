@@ -7,7 +7,7 @@ import { config } from '../../config';
 export default (module, permission) => (req: Request, res: Response, next: NextFunction) => {
     let decodeUser: any;
     const authorization = 'authorization';
-    const secretKey = config.secret_key;
+    const secretKey = config.secretKey;
     const token = req.headers[authorization];
     if (!token) {
         next ({
