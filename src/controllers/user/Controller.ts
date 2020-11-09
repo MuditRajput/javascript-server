@@ -1,4 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
+import { config } from '../../config';
+import * as jwt from 'jsonwebtoken';
+import UserRepositories from '../../repositories/user/UserRepository';
 
 class UserController {
     static instance: UserController;
@@ -16,12 +19,7 @@ class UserController {
         try {
             res.status(200).send({
                 message: 'User fetched successfully',
-                data: [
-                    {
-                        name: 'User1',
-                        address: 'Noida',
-                    }
-                ],
+                data: [res.locals.userData],
                 status: 'success',
             });
         } catch (err) {
@@ -30,16 +28,40 @@ class UserController {
     }
     create(req: Request, res: Response, next: NextFunction ) {
         try {
-            res.status(200).send({
-                message: 'User created successfully',
-                data: [
-                    {
-                        name: 'User2',
-                        address: 'Delhi',
+            UserRepositories.findOne({email: req.body.email, password: req.body.password})
+                .then((data) => {
+                    if (data.email === req.body.email && data.password === req.body.password) {
+                        const payLoad = {
+                            'iss': 'Successive Technologies',
+                            'iat': 1604858574,
+                            'exp': 1636394601,
+                            'aud': 'www.successive.in',
+                            'sub': 'Learn and Implement',
+                            'email': req.body.email,
+                            'password': req.body.password
+                        };
+                        const secret = config.secretKey;
+                        const tokenGenerated = jwt.sign(payLoad, secret);
+                        res.status(200).send({
+                            message: 'User created successfully',
+                            data: [
+                                {
+                                    token: tokenGenerated,
+                                    name: 'User2',
+                                    address: 'Delhi',
+                                }
+                            ],
+                            status: 'success',
+                        });
                     }
-                ],
-                status: 'success',
-            });
+                })
+                .catch((err) => {
+                    next ({
+                        message: 'invalid email or password',
+                        error: 'Authentication Failed',
+                        status: 403
+                    });
+                });
         } catch (err) {
             console.log('error is ', err);
         }

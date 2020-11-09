@@ -8,6 +8,10 @@ export default class UserRepositories {
         return String(mongoose.Types.ObjectId());
     }
 
+    public static findOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
+        return userModel.findOne(query).lean();
+    }
+
     public create(data: any): Promise<IUserModel> {
         console.log('User Data:', data);
         const id = UserRepositories.generateObjectId();
