@@ -1,26 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
+import UserRepositories from '../../repositories/user/UserRepository';
+import VersionableRepository from '../../repositories/versionable/VersionableRepository';
 
 class TraineeController {
     static instance: TraineeController;
-
     static getInstance() {
         if (TraineeController.instance) {
             return TraineeController.instance;
         }
-
         TraineeController.instance = new TraineeController();
         return TraineeController.instance;
     }
-
-    get(req: Request, res: Response, next: NextFunction ) {
+    async get(req: Request, res: Response, next: NextFunction ) {
         try {
+            const userRepository = new UserRepositories();
+            const extData = await userRepository.findOne({email: 'head.trainer@successive.tech'});
+            delete extData.password;
             res.status(200).send({
                 message: 'trainee fetched successfully',
-                data: [
-                    {
-                        name: 'Trainee1',
-                        address: 'Noida',
-                    }
+                data: [extData
+                    // {
+                    //     data: extData,
+                    //     name: 'Trainee1',
+                    //     address: 'Noida',
+                    // }
                 ],
                 status: 'success',
             });
@@ -46,6 +49,8 @@ class TraineeController {
     }
     update(req: Request, res: Response, next: NextFunction ) {
         try {
+            const userRepository = new UserRepositories();
+            userRepository.update({originalId: '5faa34368ccfa02f7cc5f620', email: 'head.trainer1@successive.tech'});
             res.status(200).send({
                 message: 'trainee updated successfully',
                 data: [

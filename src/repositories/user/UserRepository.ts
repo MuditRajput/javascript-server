@@ -1,15 +1,24 @@
 import * as mongoose from 'mongoose';
 import { userModel } from './UserModel';
 import IUserModel from './IUserModel';
+import VersionableRepository from '../versionable/VersionableRepository';
 
-export default class UserRepositories {
+export default class UserRepositories extends VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
 
     public static generateObjectId() {
         return String(mongoose.Types.ObjectId());
     }
-
-    public static findOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
-        return userModel.findOne(query).lean();
+    constructor() {
+        super(userModel);
+    }
+    public findOne(query): any {
+        return this.readOne(query);
+    }
+    // public static findOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
+    //     return userModel.findOne(query).lean();
+    // }
+    public update(query): any {
+        return this.userupdate(query);
     }
 
     public create(data: any): Promise<IUserModel> {
@@ -18,6 +27,7 @@ export default class UserRepositories {
         const model = new userModel({
             _id: id,
             ...data,
+            originalId: id,
         });
         return model.save();
     }

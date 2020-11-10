@@ -28,7 +28,8 @@ class UserController {
     }
     create(req: Request, res: Response, next: NextFunction ) {
         try {
-            UserRepositories.findOne({email: req.body.email, password: req.body.password})
+            const userRepositories = new UserRepositories();
+            userRepositories.findOne({email: req.body.email, password: req.body.password})
                 .then((data) => {
                     if (data.email === req.body.email && data.password === req.body.password) {
                         const payLoad = {

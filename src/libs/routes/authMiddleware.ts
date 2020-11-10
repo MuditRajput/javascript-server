@@ -26,7 +26,8 @@ export default (module, permission) => async (req: Request, res: Response, next:
                 status: 403
             });
         }
-        const data = await UserRepositories.findOne({email: decodeUser.email, password: decodeUser.password});
+        const userRepository = new UserRepositories();
+        const data = await userRepository.findOne({email: decodeUser.email, password: decodeUser.password});
         if (!data) {
             next({
                 message: 'User is empty',
