@@ -18,9 +18,9 @@ export default (module, permission) => (req: Request, res: Response, next: NextF
             });
         }
         decodeUser = jwt.verify(token, secretKey);
-        if (!decodeUser.role) {
+        if (!decodeUser || !decodeUser.role) {
             next({
-                message: 'role not found',
+                message: 'role or User not found',
                 error: 'Unauthenticated',
                 status: 403
             });
