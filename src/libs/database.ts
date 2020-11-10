@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { default as seedData } from './seedData';
 
 export default class Database {
     public static open(mongoUrl) {
@@ -12,6 +13,7 @@ export default class Database {
                     reject(err);
                     return;
                 }
+                seedData();
                 resolve();
                 console.log('App is successfully connected to MongoDB');
             });
