@@ -11,14 +11,8 @@ export default class UserRepositories extends VersionableRepository<IUserModel, 
     constructor() {
         super(userModel);
     }
-    public findOne(query): any {
-        return this.readOne(query);
-    }
-    // public static findOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
-    //     return userModel.findOne(query).lean();
-    // }
-    public update(query): any {
-        return this.userupdate(query);
+    public static readOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
+        return userModel.findOne(query).lean();
     }
 
     public create(data: any): Promise<IUserModel> {

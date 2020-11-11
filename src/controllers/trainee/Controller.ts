@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import UserRepositories from '../../repositories/user/UserRepository';
-import VersionableRepository from '../../repositories/versionable/VersionableRepository';
 
 class TraineeController {
     static instance: TraineeController;
@@ -14,17 +13,10 @@ class TraineeController {
     async get(req: Request, res: Response, next: NextFunction ) {
         try {
             const userRepository = new UserRepositories();
-            const extData = await userRepository.findOne({email: 'head.trainer@successive.tech'});
-            delete extData.password;
+            const extractedData = await userRepository.findAll(req.body, {}, {});
             res.status(200).send({
                 message: 'trainee fetched successfully',
-                data: [extData
-                    // {
-                    //     data: extData,
-                    //     name: 'Trainee1',
-                    //     address: 'Noida',
-                    // }
-                ],
+                data: [extractedData],
                 status: 'success',
             });
         } catch (err) {
@@ -33,14 +25,11 @@ class TraineeController {
     }
     create(req: Request, res: Response, next: NextFunction ) {
         try {
+            const userRepository = new UserRepositories();
+            userRepository.userCreate(req.body);
             res.status(200).send({
                 message: 'trainee created successfully',
-                data: [
-                    {
-                        name: 'Trainee2',
-                        address: 'Delhi',
-                    }
-                ],
+                data: [req.body],
                 status: 'success',
             });
         } catch (err) {
@@ -50,15 +39,10 @@ class TraineeController {
     update(req: Request, res: Response, next: NextFunction ) {
         try {
             const userRepository = new UserRepositories();
-            userRepository.update({originalId: '5faa34368ccfa02f7cc5f620', email: 'head.trainer1@successive.tech'});
+            userRepository.userUpdate(req.body);
             res.status(200).send({
                 message: 'trainee updated successfully',
-                data: [
-                    {
-                        name: 'Trainee3',
-                        address: 'Noida',
-                    }
-                ]
+                data: [req.body]
             });
         } catch (err) {
             console.log('error is ', err);
@@ -66,12 +50,13 @@ class TraineeController {
     }
     delete(req: Request, res: Response, next: NextFunction ) {
         try {
+            const userRepository = new UserRepositories();
+            userRepository.delete(req.params.id);
             res.status(200).send({
                 message: 'trainee deleted successfully',
                 data: [
                     {
-                        name: 'Trainee4',
-                        address: 'Faridabad',
+                        Id: req.params.id
                     }
                 ],
                 status: 'success',
