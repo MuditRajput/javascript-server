@@ -2,9 +2,10 @@ import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { default as hasPermissions } from '../helper';
 import { config } from '../../config';
+import UserRepositories from '../../repositories/user/UserRepository';
 
 
-export default (module, permission) => (req: Request, res: Response, next: NextFunction) => {
+export default (module, permission) => async (req: Request, res: Response, next: NextFunction) => {
     try {
         let decodeUser: any;
         const authorization = 'authorization';
@@ -13,34 +14,50 @@ export default (module, permission) => (req: Request, res: Response, next: NextF
         if (!token) {
             next ({
                 message: 'Token not found',
-                error: 'Unauthenticated',
+                error: 'Authentication Failed',
                 status: 403
             });
         }
         decodeUser = jwt.verify(token, secretKey);
-        if (!decodeUser || !decodeUser.role) {
+        const { email, password } = decodeUser;
+        if (!email || !password) {
             next({
-                message: 'role or User not found',
-                error: 'Unauthenticated',
+                message: 'Email or Password not in token',
+                error: 'Authentication failed',
+                status: 403
+            });
+        }
+        const data = await UserRepositories.findOne({email, password});
+        if (!data) {
+            next({
+                message: 'User is empty',
+                error: 'Authetication failed',
+                status: 403
+            });
+        }
+        if (!data.role) {
+            next({
+                message: 'role not found',
+                error: 'Authentication Failed',
                 status: 403
             });
             return;
         }
-        if (!hasPermissions(module, decodeUser.role, permission)) {
+        if (!hasPermissions(module, data.role, permission)) {
             return next({
-                message: `${decodeUser.role} does not have ${permission} permission in ${module}`,
+                message: `${data.role} does not have ${permission} permission in ${module}`,
                 error: 'unauthorized',
                 status: 403
             });
         }
-        next();
+        res.locals.userData = data;
+    next();
     }
     catch (err) {
         next({
             message: 'User is Invalid',
-            error: 'Unauthenticated',
+            error: 'Uthentication Failed',
             status: 403
         });
-        return;
     }
 };
