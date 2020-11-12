@@ -31,9 +31,9 @@ class UserController {
         try {
             const { email, password } = req.body;
             Object.assign(payLoad , {email, password});
-            UserRepositories.findOne({'{email}': email, '{password}': password})
+            UserRepositories.findOne({email, password})
                 .then((data) => {
-                    if (!data) {
+                    if (data) {
                         const secret = config.secretKey;
                         const tokenGenerated = jwt.sign(payLoad, secret);
                         res.status(200).send({
@@ -61,10 +61,10 @@ class UserController {
     get(req: Request, res: Response, next: NextFunction ) {
         try {
             res.status(200).send({
-                message: 'User updated successfully',
+                message: 'User fetched successfully',
                 data: [
                     {
-                        name: 'User3',
+                        name: 'User1',
                         address: 'Noida',
                     }
                 ]
@@ -76,11 +76,11 @@ class UserController {
     create(req: Request, res: Response, next: NextFunction ) {
         try {
             res.status(200).send({
-                message: 'User updated successfully',
+                message: 'User created successfully',
                 data: [
                     {
-                        name: 'User3',
-                        address: 'Noida',
+                        name: 'User2',
+                        address: 'Delhi',
                     }
                 ]
             });

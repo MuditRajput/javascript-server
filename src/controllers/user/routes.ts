@@ -10,8 +10,8 @@ userRouter.route('/me')
 userRouter.route('/login')
     .post(validationHandler(Validation.create), UserController.login);
 userRouter.route('/')
-    .put(authMiddleWare('getUsers', 'read'), validationHandler(Validation.get), UserController.get)
-    .put(authMiddleWare('getUsers', 'write'), validationHandler(Validation.create), UserController.create)
+    .get(authMiddleWare('getUsers', 'read'), validationHandler(Validation.get), UserController.get)
+    .post(authMiddleWare('getUsers', 'write'), validationHandler(Validation.create), UserController.create)
     .put(authMiddleWare('getUsers', 'all'), validationHandler(Validation.update), UserController.update)
     .delete(authMiddleWare('getUsers', 'delete'), validationHandler(Validation.delete), UserController.delete);
 
