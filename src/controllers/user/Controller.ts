@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { config } from '../../config';
 import * as jwt from 'jsonwebtoken';
 import UserRepositories from '../../repositories/user/UserRepository';
+import { payLoad } from '../../libs/constants';
 
 class UserController {
     static instance: UserController;
@@ -15,7 +16,7 @@ class UserController {
         return UserController.instance;
     }
 
-    get(req: Request, res: Response, next: NextFunction ) {
+    profile(req: Request, res: Response, next: NextFunction ) {
         try {
             res.status(200).send({
                 message: 'User fetched successfully',
@@ -26,29 +27,20 @@ class UserController {
             console.log('error is ', err);
         }
     }
-    create(req: Request, res: Response, next: NextFunction ) {
+    login(req: Request, res: Response, next: NextFunction ) {
         try {
-            UserRepositories.findOne({email: req.body.email, password: req.body.password})
+            const { email, password } = req.body;
+            Object.assign(payLoad , {email, password});
+            UserRepositories.findOne({'{email}': email, '{password}': password})
                 .then((data) => {
-                    if (data.email === req.body.email && data.password === req.body.password) {
-                        const payLoad = {
-                            'iss': 'Successive Technologies',
-                            'iat': 1604858574,
-                            'exp': 1636394601,
-                            'aud': 'www.successive.in',
-                            'sub': 'Learn and Implement',
-                            'email': req.body.email,
-                            'password': req.body.password
-                        };
+                    if (!data) {
                         const secret = config.secretKey;
                         const tokenGenerated = jwt.sign(payLoad, secret);
                         res.status(200).send({
                             message: 'User created successfully',
                             data: [
                                 {
-                                    token: tokenGenerated,
-                                    name: 'User2',
-                                    address: 'Delhi',
+                                    token: tokenGenerated
                                 }
                             ],
                             status: 'success',
@@ -62,6 +54,36 @@ class UserController {
                         status: 403
                     });
                 });
+        } catch (err) {
+            console.log('error is ', err);
+        }
+    }
+    get(req: Request, res: Response, next: NextFunction ) {
+        try {
+            res.status(200).send({
+                message: 'User updated successfully',
+                data: [
+                    {
+                        name: 'User3',
+                        address: 'Noida',
+                    }
+                ]
+            });
+        } catch (err) {
+            console.log('error is ', err);
+        }
+    }
+    create(req: Request, res: Response, next: NextFunction ) {
+        try {
+            res.status(200).send({
+                message: 'User updated successfully',
+                data: [
+                    {
+                        name: 'User3',
+                        address: 'Noida',
+                    }
+                ]
+            });
         } catch (err) {
             console.log('error is ', err);
         }
