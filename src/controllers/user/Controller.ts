@@ -19,7 +19,7 @@ class UserController {
     profile(req: Request, res: Response, next: NextFunction ) {
         try {
             res.status(200).send({
-                message: 'User fetched successfully',
+                message: 'Profile fetched successfully',
                 data: [res.locals.userData],
                 status: 'success',
             });
@@ -37,7 +37,7 @@ class UserController {
                         const secret = config.secretKey;
                         const tokenGenerated = jwt.sign(payLoad, secret);
                         res.status(200).send({
-                            message: 'User created successfully',
+                            message: 'Logged in successfully',
                             data: [
                                 {
                                     token: tokenGenerated
