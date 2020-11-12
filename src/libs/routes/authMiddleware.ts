@@ -19,7 +19,8 @@ export default (module, permission) => async (req: Request, res: Response, next:
             });
         }
         decodeUser = jwt.verify(token, secretKey);
-        if (!decodeUser.email || !decodeUser.password) {
+        const { email, password } = decodeUser;
+        if (!email || !password) {
             next({
                 message: 'Email or Password not in token',
                 error: 'Authentication failed',
@@ -27,7 +28,7 @@ export default (module, permission) => async (req: Request, res: Response, next:
             });
         }
         const userRepository = new UserRepositories();
-        const data = await userRepository.findOne({email: decodeUser.email, password: decodeUser.password});
+        const data = await userRepository.findOne({email, password});
         if (!data) {
             next({
                 message: 'User is empty',
@@ -35,7 +36,6 @@ export default (module, permission) => async (req: Request, res: Response, next:
                 status: 403
             });
         }
-        res.locals.userData = data;
         if (!data.role) {
             next({
                 message: 'role not found',
@@ -51,6 +51,7 @@ export default (module, permission) => async (req: Request, res: Response, next:
                 status: 403
             });
         }
+        res.locals.userData = data;
     next();
     }
     catch (err) {
@@ -59,6 +60,5 @@ export default (module, permission) => async (req: Request, res: Response, next:
             error: 'Uthentication Failed',
             status: 403
         });
-        return;
     }
 };

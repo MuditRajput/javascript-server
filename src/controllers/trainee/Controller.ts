@@ -2,6 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import UserRepositories from '../../repositories/user/UserRepository';
 
 class TraineeController {
+    private userRepository;
+    constructor() {
+        this.userRepository = new UserRepositories();
+    }
     static instance: TraineeController;
     static getInstance() {
         if (TraineeController.instance) {
@@ -10,10 +14,9 @@ class TraineeController {
         TraineeController.instance = new TraineeController();
         return TraineeController.instance;
     }
-    async get(req: Request, res: Response, next: NextFunction ) {
+    public get = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const userRepository = new UserRepositories();
-            const extractedData = await userRepository.findAll(req.body, {}, {});
+            const extractedData = await this.userRepository.findAll(req.body, {}, {});
             res.status(200).send({
                 message: 'trainee fetched successfully',
                 data: [extractedData],
@@ -23,10 +26,9 @@ class TraineeController {
             console.log('error is ', err);
         }
     }
-    create(req: Request, res: Response, next: NextFunction ) {
+    public create = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const userRepository = new UserRepositories();
-            userRepository.userCreate(req.body);
+            this.userRepository.userCreate(req.body);
             res.status(200).send({
                 message: 'trainee created successfully',
                 data: [req.body],
@@ -36,10 +38,9 @@ class TraineeController {
             console.log('error is ', err);
         }
     }
-    update(req: Request, res: Response, next: NextFunction ) {
+    public update = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const userRepository = new UserRepositories();
-            userRepository.userUpdate(req.body);
+            this.userRepository.userUpdate(req.body);
             res.status(200).send({
                 message: 'trainee updated successfully',
                 data: [req.body]
@@ -48,10 +49,10 @@ class TraineeController {
             console.log('error is ', err);
         }
     }
-    delete(req: Request, res: Response, next: NextFunction ) {
+    public delete = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const userRepository = new UserRepositories();
-            userRepository.delete(req.params.id);
+            const id = req.params.id;
+            this.userRepository.delete(id);
             res.status(200).send({
                 message: 'trainee deleted successfully',
                 data: [
