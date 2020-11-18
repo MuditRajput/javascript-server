@@ -1,22 +1,16 @@
 const Validation = {
     create: {
-        id: {
+        password: {
             required: true,
             string: true,
             in: ['body'],
-            custom(value) {
-                console.log('Value', value);
-                throw {
-                    error: 'Error Occured',
-                    message: 'Message'
-                };
-            }
+            errorMessage: 'Password is invalid'
         },
-        name: {
+        email: {
             required: true,
-            regex: /[a-z]+[ ][a-z]+$/i,
+            regex: /@successive.tech$/,
             in: ['body'],
-            errorMessage: 'Name is invalid'
+            errorMessage: 'Email is invalid'
         }
     },
     delete: {
@@ -43,7 +37,7 @@ const Validation = {
         }
     },
     update: {
-        id: {
+        originalId: {
             required: true,
             string: true,
             in: ['body']

@@ -26,7 +26,6 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
         return this.model.count(finalQuery);
     }
     public findOne(query: any): DocumentQuery<D, D> {
-        console.log(this.model);
         const finalQuery = {deletedAt: undefined, ...query};
         return this.model.findOne(finalQuery);
     }
@@ -53,7 +52,7 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
         } else {
             return undefined;
         }
-        const newData = Object.assign(JSON.parse(JSON.stringify(previous)), data);
+        const newData = Object.assign(JSON.parse(JSON.stringify(previous)), data.dataToUpdate);
         newData._id = VersionableRepository.generateObjectId();
         delete newData.deletedAt;
         const model = new this.model(newData);
