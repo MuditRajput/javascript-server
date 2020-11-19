@@ -17,10 +17,16 @@ class TraineeController {
     }
     public get = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const extractedData = await this.userRepository.findAll(req.body, {}, {});
+            const {skip, limit} = res.locals;
+            const sortBy = req.query.sort;
+            const extractedData = await this.userRepository.findAll(req.body).sort(`${sortBy}`).skip(skip).limit(limit);
+            const count = await this.userRepository.countFetched(req.body);
             res.status(200).send({
                 message: 'trainee fetched successfully',
-                data: [extractedData],
+                data: [{
+                    Count: count,
+                    Users: extractedData
+                }],
                 status: 'success',
             });
         } catch (err) {
@@ -45,7 +51,7 @@ class TraineeController {
         try {
             const newPassword = req.body.dataToUpdate.password;
             if (newPassword) {
-                req.body.dataToUpdate = await bcrypt.hash(newPassword, 10);
+                req.body.dataToUpdate.password = await bcrypt.hash(newPassword, 10);
             }
             const isIdValid = await this.userRepository.userUpdate(req.body);
             if (!isIdValid) {

@@ -50,6 +50,7 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
                 error.push(a);
                 return;
             }
+            res.locals[keys] = Number(value);
         });
     });
     if (error.length) {

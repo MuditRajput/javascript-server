@@ -12,7 +12,7 @@ export default class UserRepositories extends VersionableRepository<IUserModel, 
         super(userModel);
     }
     public static readOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
-        return userModel.findOne(query).lean();
+        return userModel.findOne(query);
     }
 
     public create(data: any): Promise<IUserModel> {
@@ -26,7 +26,10 @@ export default class UserRepositories extends VersionableRepository<IUserModel, 
         return model.save();
     }
 
-    public count() {
-        return userModel.countDocuments();
+    public async count() {
+        return await userModel.countDocuments();
+    }
+    public countFetched(query) {
+        return super.count(query);
     }
 }

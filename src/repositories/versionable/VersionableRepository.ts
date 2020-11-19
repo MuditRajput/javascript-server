@@ -21,9 +21,9 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
         });
         return await model.save();
     }
-    public count(query: any): Query<number> {
+    public async count(query: any): Promise<number> {
         const finalQuery = {deletedAt: undefined, ...query};
-        return this.model.count(finalQuery);
+        return await this.model.countDocuments(finalQuery);
     }
     public findOne(query: any): DocumentQuery<D, D> {
         const finalQuery = {deletedAt: undefined, ...query};
