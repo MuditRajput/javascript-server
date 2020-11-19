@@ -43,7 +43,7 @@ class TraineeController {
     }
     public update = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const newPassword = req.body.dataToUpdate;
+            const newPassword = req.body.dataToUpdate.password;
             if (newPassword) {
                 req.body.dataToUpdate = await bcrypt.hash(newPassword, 10);
             }
