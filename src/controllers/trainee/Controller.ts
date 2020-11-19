@@ -43,6 +43,10 @@ class TraineeController {
     }
     public update = async (req: Request, res: Response, next: NextFunction ) => {
         try {
+            const newPassword = req.body.dataToUpdate;
+            if (newPassword) {
+                req.body.dataToUpdate = await bcrypt.hash(newPassword, 10);
+            }
             const isIdValid = await this.userRepository.userUpdate(req.body);
             if (!isIdValid) {
                 return next({

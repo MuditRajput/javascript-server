@@ -41,8 +41,9 @@ class UserController {
                     status: 403
                 });
             }
-            if (!bcrypt.compare(password, userData.password)) {
-                next({
+            const isPasswordValid = await bcrypt.compare(password, userData.password);
+            if (!isPasswordValid) {
+                return next({
                     message: 'invalid password',
                     error: 'Authentication Failed',
                     status: 403

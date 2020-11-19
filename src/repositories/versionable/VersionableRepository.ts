@@ -51,7 +51,7 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
             return undefined;
         }
         await this.invalidate(data.originalId);
-        const newData = Object.assign(JSON.parse(JSON.stringify(previous)), data);
+        const newData = Object.assign(JSON.parse(JSON.stringify(previous)), data.dataToUpdate);
         newData._id = VersionableRepository.generateObjectId();
         delete newData.deletedAt;
         const model = new this.model(newData);
