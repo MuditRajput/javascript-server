@@ -12,7 +12,7 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
     constructor(model) {
         this.model = model;
     }
-    public async userCreate(data: IUserModel): Promise<D> {
+    public async create(data: IUserModel): Promise<D> {
         const id = VersionableRepository.generateObjectId();
         const model = new this.model({
             ...data,
@@ -23,7 +23,7 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
     }
     public count(query: any): Query<number> {
         const finalQuery = {deletedAt: undefined, ...query};
-        return this.model.count(finalQuery);
+        return this.model.countDocuments(finalQuery);
     }
     public findOne(query: any): DocumentQuery<D, D> {
         const finalQuery = {deletedAt: undefined, ...query};
@@ -38,13 +38,7 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
         const data: any = { deletedAt: Date.now() };
         return this.model.updateOne(query, data);
     }
-    public async delete(id: string): Promise<D> {
-        const previous = await this.findOne({ originalId: id, deletedAt: undefined});
-        if (previous) {
-            return await this.invalidate(id);
-        }
-    }
-    public async userUpdate(data: any): Promise<D> {
+    public async update(data: any): Promise<D> {
         const previous = await this.findOne({ originalId: data.originalId, deletedAt: undefined});
         console.log('previous: ', previous);
         if (!previous) {

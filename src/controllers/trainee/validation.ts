@@ -36,6 +36,13 @@ const Validation = {
             errorMessage: 'Limit is invalid',
         }
     },
+    getOne: {
+        id: {
+            required: true,
+            in: ['params'],
+            string: true,
+        }
+    },
     update: {
         originalId: {
             required: true,
