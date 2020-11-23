@@ -4,7 +4,7 @@ import { seedData1, seedData2 } from './constants';
 
 const userRepository: UserRepository = new UserRepository();
 export default async function seed() {
-    const count = await userRepository.count();
+    const count = await userRepository.count({});
     if (count === 0) {
         try {
         console.log('Seeding Data');

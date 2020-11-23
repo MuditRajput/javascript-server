@@ -34,6 +34,25 @@ const Validation = {
             number: true,
             in: ['query'],
             errorMessage: 'Limit is invalid',
+        },
+        sortBy: {
+            required: false,
+            default: 'createdAt',
+            in: ['query'],
+            string: true
+        },
+        sortOrder: {
+            required: false,
+            number: true,
+            default: -1,
+            in: ['query'],
+        }
+    },
+    getOne: {
+        id: {
+            required: true,
+            in: ['params'],
+            string: true,
         }
     },
     update: {

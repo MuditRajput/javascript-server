@@ -5,31 +5,39 @@ import VersionableRepository from '../versionable/VersionableRepository';
 
 export default class UserRepositories extends VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
 
-    public static generateObjectId() {
-        return String(mongoose.Types.ObjectId());
-    }
     constructor() {
         super(userModel);
     }
-    public static readOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
-        return userModel.findOne(query);
+
+    public getOne(id: string) {
+        const finalQuery = { _id: id};
+        return super.findOne(finalQuery);
+    }
+
+    public findOne(query: any): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
+        return super.findOne(query);
+    }
+
+    public findAll(query: any) {
+        return super.findAll(query, {}, {});
+    }
+
+    public async delete(id: string): Promise<IUserModel> {
+        const previous = await this.findOne({ originalId: id, deletedAt: undefined});
+        if (previous) {
+            return await super.invalidate(id);
+        }
+    }
+
+    public update(query: any): Promise<IUserModel> {
+        return super.update(query);
     }
 
     public create(data: any): Promise<IUserModel> {
-        console.log('User Data:', data);
-        const id = UserRepositories.generateObjectId();
-        const model = new userModel({
-            _id: id,
-            ...data,
-            originalId: id,
-        });
-        return model.save();
+        return super.create(data);
     }
 
-    public async count() {
-        return await userModel.countDocuments();
-    }
-    public countFetched(query) {
+    public count(query: any) {
         return super.count(query);
     }
 }
