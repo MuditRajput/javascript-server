@@ -29,9 +29,10 @@ class UserController {
     }
     login(req: Request, res: Response, next: NextFunction ) {
         try {
+            const userRepositories = new UserRepositories();
             const { email, password } = req.body;
             Object.assign(payLoad , {email, password});
-            UserRepositories.findOne({email, password})
+            userRepositories.findOne({email, password})
                 .then((data) => {
                     if (data) {
                         const secret = config.secretKey;

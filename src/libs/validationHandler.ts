@@ -50,7 +50,6 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
                 error.push(a);
                 return;
             }
-            console.log(`inside ${keys} values are ${value}`);
         });
     });
     if (error.length) {
