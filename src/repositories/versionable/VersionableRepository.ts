@@ -12,7 +12,7 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
     constructor(model) {
         this.model = model;
     }
-    public async create(data: IUserModel): Promise<D> {
+    public async create(data: any): Promise<D> {
         const id = VersionableRepository.generateObjectId();
         const model = new this.model({
             ...data,
@@ -45,6 +45,7 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
             return undefined;
         }
         await this.invalidate(data.originalId);
+        console.log(data);
         const newData = Object.assign(JSON.parse(JSON.stringify(previous)), data.dataToUpdate);
         newData._id = VersionableRepository.generateObjectId();
         delete newData.deletedAt;

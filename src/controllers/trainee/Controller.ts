@@ -18,44 +18,60 @@ class TraineeController {
 
     public get = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const extractedData = await this.userRepository.findAll(req.body, {}, {});
+            const users = await this.userRepository.findAll(req.body, {}, {});
+            if (!users) {
+                return next({
+                    message: 'Fetch Unsuccessfull',
+                    status: 400
+                });
+            }
             res.status(200).send({
                 message: 'trainee fetched successfully',
-                data: extractedData,
+                data: users,
                 status: 'success',
             });
         } catch (err) {
-            console.log('error is ', err);
+            next({message: err.message});
         }
     }
 
     public getOne = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { id } = req.params;
-            const extractedData = await this.userRepository.getOne(id);
+            const user = await this.userRepository.getOne(id);
+            if (!user) {
+                return next({
+                    message: 'Fetch Unsuccessfull',
+                    status: 400
+                });
+            }
             res.status(200).send({
                 message: 'trainee fetched successfully',
-                data: [extractedData],
+                data: user,
                 status: 'success',
             });
         }
         catch (err) {
-            console.log('error is', err);
+            next({message: err.message});
         }
     }
 
     public create = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-             const pass = await bcrypt.hash(req.body.password, 10);
-             req.body.password = pass;
-            const result = await this.userRepository.create(req.body);
+            const user = await this.userRepository.create(req.body);
+            if (!user) {
+                return next({
+                    message: 'User creation failed',
+                    status: 400
+                });
+            }
             res.status(200).send({
                 message: 'trainee created successfully',
-                data: [result],
+                data: user,
                 status: 'success',
             });
         } catch (err) {
-            console.log('error is ', err);
+            next({message: err.message});
         }
     }
     public update = async (req: Request, res: Response, next: NextFunction ) => {
@@ -73,10 +89,11 @@ class TraineeController {
             }
             res.status(200).send({
                 message: 'trainee updated successfully',
-                data: [result]
+                data: result,
+                status: 'success'
             });
         } catch (err) {
-            console.log('error is ', err);
+            next({message: err.message});
         }
     }
     public delete = async (req: Request, res: Response, next: NextFunction ) => {
@@ -91,15 +108,11 @@ class TraineeController {
             }
             res.status(200).send({
                 message: 'trainee deleted successfully',
-                data: [
-                    {
-                        Id: id
-                    }
-                ],
+                data: {},
                 status: 'success',
             });
         } catch (err) {
-            console.log('error is ', err);
+            next({message: err.message});
         }
     }
 }

@@ -2,6 +2,8 @@ import * as mongoose from 'mongoose';
 import { userModel } from './UserModel';
 import IUserModel from './IUserModel';
 import VersionableRepository from '../versionable/VersionableRepository';
+import { IQuery, ICreate } from './entities/interfaces';
+
 
 export default class UserRepositories extends VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
 
@@ -14,11 +16,11 @@ export default class UserRepositories extends VersionableRepository<IUserModel, 
         return super.findOne(finalQuery);
     }
 
-    public findOne(query: any): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
+    public findOne(query: IQuery): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
         return super.findOne(query);
     }
 
-    public findAll(query: any) {
+    public findAll(query: IQuery) {
         return super.findAll(query, {}, {});
     }
 
@@ -29,15 +31,15 @@ export default class UserRepositories extends VersionableRepository<IUserModel, 
         }
     }
 
-    public update(query: any): Promise<IUserModel> {
+    public update(query: IQuery): Promise<IUserModel> {
         return super.update(query);
     }
 
-    public create(data: any): Promise<IUserModel> {
+    public create(data: ICreate): Promise<IUserModel> {
         return super.create(data);
     }
 
-    public count(query: any) {
+    public count(query: IQuery) {
         return super.count(query);
     }
 }
