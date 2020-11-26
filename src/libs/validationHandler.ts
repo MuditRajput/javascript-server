@@ -28,7 +28,7 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
                 error.push(a);
                 return;
             }
-            if ((inObject.string) && !(typeof value === 'string')) {
+            if ((inObject.string) && (!(typeof value === 'string') || (Number(value)))) {
                 a.key = keys;
                 a.location = inside;
                 a.errorMessage = inObject.errorMessage || `${keys}'s type is not string`;
@@ -50,7 +50,10 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
                 error.push(a);
                 return;
             }
-            res.locals[keys] = Number(value);
+            if (inObject.number) {
+                return res.locals[keys] = Number(value);
+            }
+            res.locals[keys] = value;
         });
     });
     if (error.length) {
