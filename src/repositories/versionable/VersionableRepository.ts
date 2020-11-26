@@ -40,12 +40,10 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
     }
     public async update(data: any): Promise<D> {
         const previous = await this.findOne({ originalId: data.originalId, deletedAt: undefined});
-        console.log('previous: ', previous);
         if (!previous) {
             return undefined;
         }
         await this.invalidate(data.originalId);
-        console.log(data);
         const newData = Object.assign(JSON.parse(JSON.stringify(previous)), data.dataToUpdate);
         newData._id = VersionableRepository.generateObjectId();
         delete newData.deletedAt;

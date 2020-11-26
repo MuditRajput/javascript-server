@@ -76,11 +76,13 @@ class TraineeController {
     }
     public update = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const newPassword = req.body.dataToUpdate.password;
-            if (newPassword) {
-                req.body.dataToUpdate = await bcrypt.hash(newPassword, 10);
+            const { dataToUpdate: { password , ...rest}, originalId } = req.body;
+            let newPassword;
+            if (password) {
+                newPassword = await bcrypt.hash(password, 10);
             }
-            const result = await this.userRepository.update(req.body);
+            const newUser = {originalId, dataToUpdate: {password: newPassword, ...rest}};
+            const result = await this.userRepository.update(newUser);
             if (!result) {
                 return next({
                     message: 'Update Failed',

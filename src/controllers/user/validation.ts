@@ -1,5 +1,5 @@
 const Validation = {
-    create: {
+    login: {
         password: {
             required: true,
             string: true,
@@ -13,14 +13,7 @@ const Validation = {
             errorMessage: 'Email is invalid'
         }
     },
-    delete: {
-        id: {
-            required: true,
-            errorMessage: 'Id is required',
-            in: ['params']
-        }
-    },
-    get: {
+    profile: {
         skip: {
             required: false,
             default: 0,
@@ -34,21 +27,6 @@ const Validation = {
             number: true,
             in: ['query'],
             errorMessage: 'Limit is invalid',
-        }
-    },
-    update: {
-        id: {
-            required: true,
-            string: true,
-            in: ['body']
-        },
-        dataToUpdate: {
-            in: ['body'],
-            required: true,
-            isObject: true,
-            custom(dataToUpdate) {
-                console.log('hey');
-            }
         }
     }
 };
