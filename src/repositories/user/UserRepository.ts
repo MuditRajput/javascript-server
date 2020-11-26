@@ -2,34 +2,44 @@ import * as mongoose from 'mongoose';
 import { userModel } from './UserModel';
 import IUserModel from './IUserModel';
 import VersionableRepository from '../versionable/VersionableRepository';
+import { IQuery, ICreate } from './entities/interfaces';
+
 
 export default class UserRepositories extends VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
 
-    public static generateObjectId() {
-        return String(mongoose.Types.ObjectId());
-    }
     constructor() {
         super(userModel);
     }
-    public static readOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
-        return userModel.findOne(query);
+
+    public getOne(id: string) {
+        const finalQuery = { _id: id};
+        return super.findOne(finalQuery);
     }
 
-    public create(data: any): Promise<IUserModel> {
-        console.log('User Data:', data);
-        const id = UserRepositories.generateObjectId();
-        const model = new userModel({
-            _id: id,
-            ...data,
-            originalId: id,
-        });
-        return model.save();
+    public findOne(query: IQuery): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
+        return super.findOne(query);
     }
 
-    public async count() {
-        return await userModel.countDocuments();
+    public findAll(query: IQuery) {
+        return super.findAll(query, {}, {});
     }
-    public countFetched(query) {
+
+    public async delete(id: string): Promise<IUserModel> {
+        const previous = await this.findOne({ originalId: id, deletedAt: undefined});
+        if (previous) {
+            return await super.invalidate(id);
+        }
+    }
+
+    public update(query: IQuery): Promise<IUserModel> {
+        return super.update(query);
+    }
+
+    public create(data: ICreate): Promise<IUserModel> {
+        return super.create(data);
+    }
+
+    public count(query: IQuery) {
         return super.count(query);
     }
 }

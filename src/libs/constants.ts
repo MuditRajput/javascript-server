@@ -15,22 +15,14 @@ export const permissions: IPermissions = {
     }
 };
 
-export const payLoad = {
+export let payLoad = {
     'iss': 'Successive Technologies',
     'aud': 'www.successive.in',
     'sub': 'Learn and Implement',
-    'email': ''
 };
 export const seedData1 = {
     name: 'Head-Trainer',
     email: 'head.trainer@successive.tech',
     role: 'head-trainer',
     password: 'headhead'
-};
-
-export const seedData2 = {
-    name: 'Trainer',
-    email: 'trainer@successive.tech',
-    role: 'trainer',
-    password: 'trainertrainer'
 };

@@ -11,11 +11,25 @@ const Validation = {
             regex: /@successive.tech$/,
             in: ['body'],
             errorMessage: 'Email is invalid'
+        },
+        name: {
+            required: true,
+            string: true,
+            regex: /[a-z]+/i,
+            in: ['body'],
+            errorMessage: 'Name is invalid'
+        },
+        role: {
+            required: false,
+            string: true,
+            in: ['body'],
+            errorMessage: 'Role is invalid'
         }
     },
     delete: {
         id: {
             required: true,
+            string: true,
             errorMessage: 'Id is required',
             in: ['params']
         }
@@ -34,6 +48,13 @@ const Validation = {
             number: true,
             in: ['query'],
             errorMessage: 'Limit is invalid',
+        }
+    },
+    getOne: {
+        id: {
+            required: true,
+            in: ['params'],
+            string: true,
         }
     },
     update: {
