@@ -1,27 +1,35 @@
 const Validation = {
     create: {
-        id: {
+        password: {
             required: true,
             string: true,
             in: ['body'],
-            custom(value) {
-                console.log('Value', value);
-                throw {
-                    error: 'Error Occured',
-                    message: 'Message'
-                };
-            }
+            errorMessage: 'Password is invalid'
+        },
+        email: {
+            required: true,
+            regex: /@successive.tech$/,
+            in: ['body'],
+            errorMessage: 'Email is invalid'
         },
         name: {
             required: true,
-            regex: /[a-z]+[ ][a-z]+$/i,
+            string: true,
+            regex: /[a-z]+/i,
             in: ['body'],
             errorMessage: 'Name is invalid'
+        },
+        role: {
+            required: false,
+            string: true,
+            in: ['body'],
+            errorMessage: 'Role is invalid'
         }
     },
     delete: {
         id: {
             required: true,
+            string: true,
             errorMessage: 'Id is required',
             in: ['params']
         }
@@ -42,8 +50,15 @@ const Validation = {
             errorMessage: 'Limit is invalid',
         }
     },
-    update: {
+    getOne: {
         id: {
+            required: true,
+            in: ['params'],
+            string: true,
+        }
+    },
+    update: {
+        originalId: {
             required: true,
             string: true,
             in: ['body']

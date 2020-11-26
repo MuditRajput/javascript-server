@@ -19,16 +19,16 @@ export default (module, permission) => async (req: Request, res: Response, next:
             });
         }
         decodeUser = jwt.verify(token, secretKey);
-        const { email, password } = decodeUser;
-        if (!email || !password) {
+        const { email } = decodeUser;
+        if (!email) {
             next({
-                message: 'Email or Password not in token',
+                message: 'Email  not in token',
                 error: 'Authentication failed',
                 status: 403
             });
         }
         const userRepository = new UserRepositories();
-        const data = await userRepository.findOne({email, password});
+        const data = await userRepository.findOne({email});
         if (!data) {
             next({
                 message: 'User is empty',

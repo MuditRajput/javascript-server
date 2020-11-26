@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import * as bcrypt from 'bcrypt';
 import UserRepositories from '../../repositories/user/UserRepository';
 
 class TraineeController {
@@ -75,7 +76,13 @@ class TraineeController {
     }
     public update = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const result = await this.userRepository.update(req.body);
+            const { dataToUpdate: { password , ...rest}, originalId } = req.body;
+            let newPassword;
+            if (password) {
+                newPassword = await bcrypt.hash(password, 10);
+            }
+            const newUser = {originalId, dataToUpdate: {password: newPassword, ...rest}};
+            const result = await this.userRepository.update(newUser);
             if (!result) {
                 return next({
                     message: 'Update Failed',
@@ -95,7 +102,6 @@ class TraineeController {
         try {
             const id = req.params.id;
             const result = await this.userRepository.delete(id);
-            console.log(result);
             if (!result) {
                 return next({
                     message: 'Delete Failed',

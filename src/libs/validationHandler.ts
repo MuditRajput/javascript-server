@@ -18,7 +18,7 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
                 return;
             }
             value = value || inObject.default;
-            if (!value) {
+            if (!`${value}`) {
                 return;
             }
             if ((inObject.number) && !(Number.isInteger(Number(value)))) {
