@@ -18,10 +18,9 @@ class TraineeController {
 
     public get = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const {skip, limit} = res.locals;
-            const sortBy = req.query.sort;
-            const users = await this.userRepository.findAll(req.body).sort(`${sortBy}`).skip(skip).limit(limit);
-            const count = await this.userRepository.countFetched(req.body);
+            const {skip, limit, sortBy, sortOrder} = res.locals;
+            const users = await this.userRepository.findAll({}).sort({[sortBy]: `${sortOrder}`}).skip(skip).limit(limit);
+            const count = await this.userRepository.count({});
             if (!users) {
                 return next({
                     message: 'Fetch Unsuccessfull',
