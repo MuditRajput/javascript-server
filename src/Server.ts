@@ -3,9 +3,11 @@ import * as bodyParser from 'body-parser';
 import { errorHandler, notFoundRoute } from './libs/routes';
 import routes from './router';
 import Database from './libs/database';
+import * as swaggerUi from 'swagger-ui-express';
+import { swaggerDocument } from './swagger';
 
 class Server {
-    private app;
+    public app;
     constructor(private config) {
         this.app = express();
     }
@@ -21,6 +23,9 @@ class Server {
         app.get('/health-check', (req, res) => {
             res.send('I am OK');
         });
+
+        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
         app.use('/api', routes);
 
         app.use(notFoundRoute);

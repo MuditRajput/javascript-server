@@ -18,10 +18,18 @@ class TraineeController {
 
     public get = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const {skip, limit} = res.locals;
-            const sortBy = req.query.sort;
-            const users = await this.userRepository.findAll(req.body).sort(`${sortBy}`).skip(skip).limit(limit);
-            const count = await this.userRepository.countFetched(req.body);
+            const {skip, limit, sortBy, sortOrder, search} = res.locals;
+            let searchKey = '';
+            const nameRegex = /[a-z]+/;
+            const emailRegex = /@[a-z]+[.][a-z]+$/;
+            if (search && (nameRegex.test(search))) {
+                searchKey = 'name';
+            }
+            if (search && (emailRegex.test(search))) {
+                searchKey = 'email';
+            }
+            const users = await this.userRepository.findAll({[searchKey]: search}).sort({[sortBy]: `${sortOrder}`}).skip(skip).limit(limit);
+            const count = await this.userRepository.count({});
             if (!users) {
                 return next({
                     message: 'Fetch Unsuccessfull',
@@ -31,8 +39,8 @@ class TraineeController {
             res.status(200).send({
                 message: 'trainee fetched successfully',
                 data: {
-                    Count: count,
-                    UserList: users
+                    totalCount: count,
+                    UsersList: users
                 },
                 status: 'success'
             });

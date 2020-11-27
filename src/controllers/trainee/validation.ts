@@ -60,6 +60,11 @@ const Validation = {
             number: true,
             default: -1,
             in: ['query'],
+        },
+        search: {
+            required: false,
+            string: true,
+            in: ['query']
         }
     },
     getOne: {
