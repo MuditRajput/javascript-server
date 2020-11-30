@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, request } from 'express';
 import * as bcrypt from 'bcrypt';
 import UserRepositories from '../../repositories/user/UserRepository';
 
@@ -18,17 +18,15 @@ class TraineeController {
 
     public get = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const {skip, limit, sortBy, sortOrder, search} = res.locals;
-            let searchKey = '';
-            const nameRegex = /[a-z]+/;
-            const emailRegex = /@[a-z]+[.][a-z]+$/;
-            if (search && (nameRegex.test(search))) {
-                searchKey = 'name';
-            }
-            if (search && (emailRegex.test(search))) {
-                searchKey = 'email';
-            }
-            const users = await this.userRepository.findAll({[searchKey]: search}).sort({[sortBy]: `${sortOrder}`}).skip(skip).limit(limit);
+            const {skip, limit, sortBy, sortOrder, searchBy, search} = req.body;
+            const options = {
+                skip,
+                limit,
+                sort: {
+                    [sortBy]: sortOrder
+                }
+            };
+            const users = await this.userRepository.findAll({[searchBy]: search}, options);
             const count = await this.userRepository.count({});
             if (!users) {
                 return next({
