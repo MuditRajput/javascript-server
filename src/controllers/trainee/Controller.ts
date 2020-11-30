@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, request } from 'express';
 import * as bcrypt from 'bcrypt';
 import UserRepositories from '../../repositories/user/UserRepository';
 
@@ -18,8 +18,15 @@ class TraineeController {
 
     public get = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const {skip, limit, sortBy, sortOrder} = res.locals;
-            const users = await this.userRepository.findAll({}).sort({[sortBy]: `${sortOrder}`}).skip(skip).limit(limit);
+            const {skip, limit, sortBy, sortOrder} = request.body;
+            const options = {
+                skip,
+                limit,
+                sort: {
+                    [sortBy]: sortOrder
+                }
+            };
+            const users = await this.userRepository.findAll({}, options);
             const count = await this.userRepository.count({});
             if (!users) {
                 return next({

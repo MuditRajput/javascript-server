@@ -1,6 +1,5 @@
 import * as mongoose from 'mongoose';
-import { DocumentQuery, Query } from 'mongoose';
-import IUserModel from '../user/IUserModel';
+import { DocumentQuery } from 'mongoose';
 
 export default class VersionableRepository <D extends mongoose.Document, M extends mongoose.Model<D>> {
     public static generateObjectId() {
