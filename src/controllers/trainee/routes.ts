@@ -39,6 +39,12 @@ traineeRouter.route('/')
      *         required: false
      *         schema:
      *           type: string
+     *       - name: searchBy
+     *         in: query
+     *         description: (Name or Email) to be searched by.
+     *         required: false
+     *         schema:
+     *           type: string
      *       - name: search
      *         in: query
      *         description: Name or Email to be search.
