@@ -18,7 +18,7 @@ class TraineeController {
 
     public get = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const {skip, limit, sortBy, sortOrder} = request.body;
+            const {skip, limit, sortBy, sortOrder} = req.body;
             const options = {
                 skip,
                 limit,
