@@ -35,7 +35,7 @@ class UserController {
             const newPayLoad = {...payLoad, email};
             const userData = await userRepositories.findOne({email});
             if (!userData) {
-                next ({
+                return next ({
                     message: 'invalid email',
                     error: 'Authentication Failed',
                     status: 403

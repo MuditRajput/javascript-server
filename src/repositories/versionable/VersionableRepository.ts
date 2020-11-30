@@ -1,6 +1,5 @@
 import * as mongoose from 'mongoose';
-import { DocumentQuery, Query } from 'mongoose';
-import IUserModel from '../user/IUserModel';
+import { DocumentQuery } from 'mongoose';
 
 export default class VersionableRepository <D extends mongoose.Document, M extends mongoose.Model<D>> {
     public static generateObjectId() {
@@ -21,9 +20,9 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
         });
         return await model.save();
     }
-    public count(query: any): Query<number> {
+    public async count(query: any): Promise<number> {
         const finalQuery = {deletedAt: undefined, ...query};
-        return this.model.countDocuments(finalQuery);
+        return await this.model.countDocuments(finalQuery);
     }
     public findOne(query: any): DocumentQuery<D, D> {
         const finalQuery = {deletedAt: undefined, ...query};

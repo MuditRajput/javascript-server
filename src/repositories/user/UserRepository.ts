@@ -20,8 +20,8 @@ export default class UserRepositories extends VersionableRepository<IUserModel, 
         return super.findOne(query);
     }
 
-    public findAll(query: IQuery) {
-        return super.findAll(query, {}, {});
+    public findAll(query: IQuery, options) {
+        return super.findAll(query, {}, options);
     }
 
     public async delete(id: string): Promise<IUserModel> {

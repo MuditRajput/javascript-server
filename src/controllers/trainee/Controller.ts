@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, request } from 'express';
 import * as bcrypt from 'bcrypt';
 import UserRepositories from '../../repositories/user/UserRepository';
 
@@ -18,7 +18,16 @@ class TraineeController {
 
     public get = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const users = await this.userRepository.findAll(req.body, {}, {});
+            const {skip, limit, sortBy, sortOrder} = req.body;
+            const options = {
+                skip,
+                limit,
+                sort: {
+                    [sortBy]: sortOrder
+                }
+            };
+            const users = await this.userRepository.findAll({}, options);
+            const count = await this.userRepository.count({});
             if (!users) {
                 return next({
                     message: 'Fetch Unsuccessfull',
@@ -27,8 +36,11 @@ class TraineeController {
             }
             res.status(200).send({
                 message: 'trainee fetched successfully',
-                data: users,
-                status: 'success',
+                data: {
+                    Count: count,
+                    UserList: users
+                },
+                status: 'success'
             });
         } catch (err) {
             next({message: err.message});
@@ -58,6 +70,9 @@ class TraineeController {
 
     public create = async (req: Request, res: Response, next: NextFunction ) => {
         try {
+            const { password, ...rest } = req.body;
+            const hashPassword = await bcrypt.hash(password, 10);
+            req.body = {...rest, password: hashPassword};
             const user = await this.userRepository.create(req.body);
             if (!user) {
                 return next({
