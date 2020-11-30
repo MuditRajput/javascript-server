@@ -64,8 +64,7 @@ const Validation = {
         searchBy: {
             required: false,
             string: true,
-            in: ['query'],
-            default: 'name'
+            in: ['query']
         },
         search: {
             required: false,
