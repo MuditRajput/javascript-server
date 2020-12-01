@@ -2,7 +2,6 @@ import * as swaggerDocs from 'swagger-jsdoc';
 
 const swaggerOptions = {
     swaggerDefinition: {
-        components: {},
         info: {
             swagger: '2.0',
             title: 'Express Training',
@@ -14,7 +13,14 @@ const swaggerOptions = {
             },
             server: ['https://localhost:9000/']
         },
-        basePath: '/api'
+        basePath: '/api',
+        securityDefinitions: {
+            ApiKeyAuth: {
+                type: 'apiKey',
+                in: 'header',
+                name: 'Authorization'
+            }
+        }
     },
     apis: ['dist/**/*.js']
 };

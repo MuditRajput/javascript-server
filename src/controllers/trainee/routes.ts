@@ -35,7 +35,7 @@ traineeRouter.route('/')
      *           type: string
      *       - name: sortOrder
      *         in: query
-     *         description: sortOrder(1 for ascending and -1 for descending).
+     *         description: sortOrder(Ascending or Descending).
      *         required: false
      *         schema:
      *           type: string
@@ -55,11 +55,11 @@ traineeRouter.route('/')
      *       '200':
      *         description: successful operation
      *         schema:
-     *           '$ref': '#/components/schemas/Getall'
+     *           '$ref': '#/definitions/usersGETResponse'
      *       '403':
      *         description: Invalid status value
      *         schema:
-     *           '$ref': '#/components/schemas/Error'
+     *           '$ref': '#/definitions/Error'
      *     tags:
      *       - trainee
      */
@@ -76,11 +76,8 @@ traineeRouter.route('/')
      *     parameters:
      *       - name: body
      *         in: body
-     *         example:
-     *           email: email@successive.tech
-     *           password: passwordHere
-     *           name: Firstname LastName
-     *           role: role
+     *         schema:
+     *           $ref: '#/definitions/CREATEInput'
      *         content:
      *           application/json:
      *             schema:
@@ -90,11 +87,11 @@ traineeRouter.route('/')
      *       '200':
      *         description: User fetched successfully
      *         schema:
-     *           $ref: '#/components/schemas/Success'
+     *           $ref: '#/definitions/userPOSTResponse'
      *       '403':
      *         description: Invalid User
      *         schema:
-     *           $ref: '#/components/schemas/Error'
+     *           $ref: '#/definitions/Error'
      *     tags:
      *       - trainee
      */
@@ -111,14 +108,8 @@ traineeRouter.route('/')
      *     parameters:
      *       - name: body
      *         in: body
-     *         example:
-     *           originalId: s99d8acx22sdasa0s9d8a
-     *           dataToUpdate: {
-     *             name: First Last,
-     *             email: new.email@successive.tech,
-     *             password: New Password,
-     *             role: New role
-     *           }
+     *         schema:
+     *           $ref: '#/definitions/PUTInput'
      *         content:
      *           application/json:
      *             schema:
@@ -128,11 +119,11 @@ traineeRouter.route('/')
      *       '200':
      *         description: User created successfully
      *         schema:
-     *           $ref: '#/components/schemas/Success'
+     *           $ref: '#/definitions/userPUTResponse'
      *       '403':
      *         description: Invalid user
      *         schema:
-     *           $ref: '#/components/schemas/Error'
+     *           $ref: '#/definitions/Error'
      *     tags:
      *       - trainee
      */
@@ -159,11 +150,11 @@ traineeRouter.route('/:id')
      *       '200':
      *         description: Deleted Successfully
      *         schema:
-     *           $ref: '#/components/schemas/Delete'
+     *           $ref: '#/definitions/userDELETEResonse'
      *       '403':
      *         description: Delete Failed
      *         schema:
-     *           $ref: '#/components/schemas/Error'
+     *           $ref: '#/definitions/Error'
      *     tags:
      *       - trainee
      */
@@ -189,11 +180,11 @@ traineeRouter.route('/:id')
      *       '200':
      *         description: User Fetched Successfully
      *         schema:
-     *           $ref: '#/components/schemas/Success'
+     *           $ref: '#/definitions/userGETResponse'
      *       '403':
      *         description: Invalid User
      *         schema:
-     *           $ref: '#/components/schemas/Error'
+     *           $ref: '#/definitions/Error'
      *     tags:
      *       - trainee
      */

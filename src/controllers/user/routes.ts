@@ -21,11 +21,11 @@ userRouter.route('/me')
      *       '200':
      *         description: successful operation
      *         schema:
-     *           $ref: '#/components/schemas/Success'
+     *           $ref: '#/definitions/ProfileResponse'
      *       '403':
      *         description: Invalid status value
      *         schema:
-     *           $ref: '#/components/schemas/Error'
+     *           $ref: '#/definitions/Error'
      */
     .get(authMiddleWare('getUsers', 'read'), validationHandler(Validation.profile), UserController.profile);
 
@@ -41,9 +41,9 @@ userRouter.route('/login')
      *     parameters:
      *       - name: body
      *         in: body
-     *         example:
-     *           email: email@successive.tech
-     *           password: passwordHere
+     *         description: Enter email and password
+     *         schema:
+     *           $ref: '#/definitions/loginInput'
      *         content:
      *           application/json:
      *             schema:
@@ -53,11 +53,11 @@ userRouter.route('/login')
      *       '200':
      *         description: successful operation
      *         schema:
-     *           $ref: '#/components/schemas/Login'
+     *           $ref: '#/definitions/LoginResponse'
      *       '403':
      *         description: Invalid username / password supplied
      *         schema:
-     *           $ref: '#/components/schemas/Error'
+     *           $ref: '#/definitions/Error'
      */
     .post(validationHandler(Validation.login), UserController.login);
 

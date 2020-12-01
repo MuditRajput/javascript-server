@@ -5,9 +5,10 @@ import routes from './router';
 import Database from './libs/database';
 import * as swaggerUi from 'swagger-ui-express';
 import { swaggerDocument } from './swagger';
+console.log(swaggerDocument);
 
 class Server {
-    public app;
+    private app;
     constructor(private config) {
         this.app = express();
     }
