@@ -18,7 +18,7 @@ class TraineeController {
 
     public get = async (req: Request, res: Response, next: NextFunction ) => {
         try {
-            const {skip, limit, sortBy, sortOrder} = req.body;
+            const {skip, limit, sortBy, sortOrder, searchBy, search} = req.body;
             const options = {
                 skip,
                 limit,
@@ -26,7 +26,8 @@ class TraineeController {
                     [sortBy]: sortOrder
                 }
             };
-            const users = await this.userRepository.findAll({}, options);
+            const regexSearch = new RegExp(search, 'gi');
+            const users = await this.userRepository.findAll({[searchBy]: regexSearch}, options);
             const count = await this.userRepository.count({});
             if (!users) {
                 return next({
@@ -37,8 +38,8 @@ class TraineeController {
             res.status(200).send({
                 message: 'trainee fetched successfully',
                 data: {
-                    Count: count,
-                    UserList: users
+                    totalCount: count,
+                    UsersList: users
                 },
                 status: 'success'
             });

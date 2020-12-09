@@ -20,7 +20,7 @@ const Validation = {
             errorMessage: 'Name is invalid'
         },
         role: {
-            required: false,
+            required: true,
             string: true,
             in: ['body'],
             errorMessage: 'Role is invalid'
@@ -57,9 +57,19 @@ const Validation = {
         },
         sortOrder: {
             required: false,
-            number: true,
-            default: -1,
+            string: true,
+            default: 'descending',
             in: ['query'],
+        },
+        searchBy: {
+            required: false,
+            string: true,
+            in: ['query']
+        },
+        search: {
+            required: false,
+            string: true,
+            in: ['query']
         }
     },
     getOne: {

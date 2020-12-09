@@ -51,7 +51,7 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
                 return;
             }
             if (inObject.number) {
-                return res.locals[keys] = Number(value);
+                return req.body[keys] = Number(value);
             }
             req.body[keys] = value;
         });
