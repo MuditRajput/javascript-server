@@ -26,7 +26,10 @@ class TraineeController {
                     [sortBy]: sortOrder
                 }
             };
-            const regexSearch = new RegExp(search, 'gi');
+            let regexSearch;
+            if(search) {
+                regexSearch = new RegExp(search, 'gi');
+            }
             const users = await this.userRepository.findAll({[searchBy]: regexSearch}, options);
             const count = await this.userRepository.count({});
             if (!users) {
