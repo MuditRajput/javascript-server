@@ -8,7 +8,7 @@ const Validation = {
         },
         email: {
             required: true,
-            regex: /@successive.tech$/,
+            regex: /@[a-z]+[.][a-z]+$/,
             in: ['body'],
             errorMessage: 'Email is invalid'
         },
@@ -20,9 +20,10 @@ const Validation = {
             errorMessage: 'Name is invalid'
         },
         role: {
-            required: true,
+            required: false,
             string: true,
             in: ['body'],
+            default: 'trainee',
             errorMessage: 'Role is invalid'
         }
     },
@@ -40,7 +41,6 @@ const Validation = {
             default: 0,
             number: true,
             in: ['query'],
-            errorMessage: 'Skip is invalid',
         },
         limit: {
             required: false,

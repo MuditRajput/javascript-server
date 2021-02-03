@@ -8,7 +8,7 @@ const Validation = {
         },
         email: {
             required: true,
-            regex: /@successive.tech$/,
+            regex: /@[a-z]+[.][a-z]+$/,
             in: ['body'],
             errorMessage: 'Email is invalid'
         }

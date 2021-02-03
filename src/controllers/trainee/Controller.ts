@@ -27,7 +27,7 @@ class TraineeController {
                 }
             };
             let regexSearch;
-            if(search) {
+            if (search) {
                 regexSearch = new RegExp(search, 'gi');
             }
             const users = await this.userRepository.findAll({[searchBy]: regexSearch}, options);
@@ -39,7 +39,7 @@ class TraineeController {
                 });
             }
             res.status(200).send({
-                message: 'trainee fetched successfully',
+                message: 'Trainees Fetched Successfully',
                 data: {
                     totalCount: count,
                     UsersList: users
@@ -62,7 +62,7 @@ class TraineeController {
                 });
             }
             res.status(200).send({
-                message: 'trainee fetched successfully',
+                message: 'Trainee Fetched Successfully',
                 data: user,
                 status: 'success',
             });
@@ -80,12 +80,12 @@ class TraineeController {
             const user = await this.userRepository.create(req.body);
             if (!user) {
                 return next({
-                    message: 'User creation failed',
+                    message: 'Trainee creation failed',
                     status: 400
                 });
             }
             res.status(200).send({
-                message: 'trainee created successfully',
+                message: 'Trainee Created Successfully',
                 data: user,
                 status: 'success',
             });
@@ -109,7 +109,7 @@ class TraineeController {
                 });
             }
             res.status(200).send({
-                message: 'trainee updated successfully',
+                message: 'Trainee Updated Successfully',
                 data: result,
                 status: 'success'
             });
@@ -128,7 +128,7 @@ class TraineeController {
                 });
             }
             res.status(200).send({
-                message: 'trainee deleted successfully',
+                message: 'Trainee Deleted Successfully',
                 data: {},
                 status: 'success',
             });

@@ -3,7 +3,7 @@ import { default as seedData } from './seedData';
 
 export default class Database {
     public static open(mongoUrl) {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             const options = {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
