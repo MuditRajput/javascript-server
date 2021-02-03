@@ -41,6 +41,7 @@ const Validation = {
             default: 0,
             number: true,
             in: ['query'],
+            errorMessage: 'Skip is invalid',
         },
         limit: {
             required: false,
