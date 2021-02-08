@@ -12,7 +12,7 @@ export default class UserRepositories extends VersionableRepository<IUserModel, 
     }
 
     public getOne(id: string) {
-        const finalQuery = { _id: id};
+        const finalQuery = { originalId: id };
         return super.findOne(finalQuery);
     }
 

@@ -46,7 +46,7 @@ export default (module, permission) => async (req: Request, res: Response, next:
         }
         if (!hasPermissions(module, data.role, permission)) {
             return next({
-                message: `${data.role} does not have ${permission} permission in ${module}`,
+                message: `${data.role} does not have ${permission} permissions`,
                 error: 'unauthorized',
                 status: 403
             });
@@ -57,7 +57,7 @@ export default (module, permission) => async (req: Request, res: Response, next:
     catch (err) {
         next({
             message: 'User is Invalid',
-            error: 'Uthentication Failed',
+            error: 'Authentication Failed',
             status: 403
         });
     }

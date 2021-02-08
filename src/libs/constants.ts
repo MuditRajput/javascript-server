@@ -24,5 +24,5 @@ export const seedData1 = {
     name: 'Head-Trainer',
     email: 'head.trainer@successive.tech',
     role: 'head-trainer',
-    password: 'headhead'
+    password: 'Qwerty@1'
 };
